@@ -1,6 +1,7 @@
 == Jruby RSpec Sample App For bug with TempFiles
 
-This is a sample app to showcase a bug that occurs with creating Tempfiles in Jruby. I was only able to reproduce this with RSpec so I'm not exactly sure where the bug actually lies. 
+This is a sample app to showcase a bug that occurs with creating Tempfiles in Jruby. I was only able to reproduce this with RSpec so I'm not exactly sure where the bug actually lies. Further, the bug is only apparent when uploading a fixture file in separate describe blocks. If they are in the same describe block, the issue does not occur.
+
 
 The bug occurs when both of the following are true:
 
@@ -8,6 +9,10 @@ The bug occurs when both of the following are true:
     2. ActionMailer::Base.deliveries is not cleared in a before block
 
 The last item is super weird, but its what will actually get the test to pass.
+
+Please see the Travis test matrix to see it pass and fail on different version of Ruby and Jruby: https://travis-ci.org/synth/jruby-rspec-tempfile-bug/builds/190508014
+
+Some versions may be feeling due to red-herrings, but in particular, JRuby 9.1.5.0 experiences a NullPointException which is how I first came across this issue.
 
 === To reproduce
 
