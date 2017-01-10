@@ -1,0 +1,21 @@
+== Jruby RSpec Sample App For bug with TempFiles
+
+This is a sample app to showcase a bug that occurs with creating Tempfiles in Jruby. I was only able to reproduce this with RSpec so I'm not exactly sure where the bug actually lies. 
+
+The bug occurs when both of the following are true:
+
+    1. Rspec.config.order = "random"
+    2. ActionMailer::Base.deliveries is not cleared in a before block
+
+The last item is super weird, but its what will actually get the test to pass.
+
+=== To reproduce
+
+1. Run spec test that will fail
+
+    rspec spec/temp_file_spec.rb
+
+2. To see the test pass, do either of the following
+    
+    1. Comment out in spec_helper.rb "config.order = 'random'"
+    2. Or uncomment the before block that clears out ActionMailer::Base.deliveries
